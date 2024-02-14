@@ -1,12 +1,12 @@
 import React from 'react'
-import useCanvas from './useCanvas'
+import useCanvas from './useCanvas.js'
 import './Canvas.scss'
 
 const Canvas = props => {  
   
-  const { draw, ...rest } = props
-  const ref = useCanvas(draw)
-  
+  const { draw, ...rest } = props;
+  const ref = useCanvas(draw);
+
   return <canvas ref={ref} {...rest}/>
 }
 

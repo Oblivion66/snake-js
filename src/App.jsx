@@ -17,10 +17,11 @@ const App = () => {
     const d = count % 800
     context.fillRect(10 +d , 10  , 100 , 100)
   }
-
+  
   return (
     <div className='app'>
       <div className='content'>
+       
         <main>
           <Button id="open-menu" onClick = {() => setMenuActive(true)}>Меню</Button>
 
@@ -31,11 +32,12 @@ const App = () => {
             <button className='menu-buttons' id='quit-game'>Завершить игру</button>
         </Menu>
 
-
+      
         <Canvas className="game-field" draw={draw}/>
 
         <Button id='start-game-btn'>Начать игру</Button>
         <Button id='quit-game-btn'>Завершить игру</Button>
+
         </div>
     </div>
   );
