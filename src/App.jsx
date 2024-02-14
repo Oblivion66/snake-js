@@ -17,6 +17,7 @@ const App = () => {
     const d = count % 800
     context.fillRect(10 +d , 10  , 100 , 100)
   }
+
   
   return (
     <div className='app'>

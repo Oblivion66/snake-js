@@ -1,4 +1,5 @@
 import React from 'react'
+//import useCanvas from './useCanvas2.js'
 import useCanvas from './useCanvas.js'
 import './Canvas.scss'
 
