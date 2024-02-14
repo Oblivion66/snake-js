@@ -1,0 +1,26 @@
+@import '../UI/styles.scss';
+
+.myBtn {
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 30px;
+    margin: 50px;
+    border-radius: 20px;
+    background-color: $btn-color;
+    color:  $text-color;
+    font-size: $large-font-size;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    box-shadow: 0 0 12px 0 $btn-color;
+
+    &:hover {
+        background-color: $btn-color-hover;
+        color: $text-hovercolor;
+        transform: scale(1.03);
+        box-shadow: 0 0 24px 0 $btn-color;
+    }
+}

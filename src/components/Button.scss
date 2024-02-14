@@ -1,0 +1,30 @@
+@import '../UI/styles.scss';
+
+#open-menu {
+    margin-left: 12px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+
+#start-game-btn {
+    float: left;
+    margin-left: 216px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+}
+
+#quit-game-btn {
+    float: right;
+    margin-right: 216px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+    background-color: $quit-btn-color;
+    color: $text-quitcolor;
+    box-shadow: 0 0 12px 0 $quit-btn-color;
+
+    &:hover {
+        background-color: $quit-btn-color-hover;
+        color: $text-quit-hovercolor;
+        box-shadow: 0 0 24px 0 $quit-btn-color;
+    }
+}

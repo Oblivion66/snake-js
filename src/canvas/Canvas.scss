@@ -1,0 +1,17 @@
+@import '../UI/styles.scss';
+
+.canvas {
+    width: 1000px;
+    height: 500px;
+}
+
+.game-field {
+    position: relative;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    outline: 10px solid $canvas-outlinecolor;
+    background-color: $canvas-bgcolor;
+    z-index: 0;
+    box-shadow: 0 0 256px 32px $canvas-bgcolor;
+}
