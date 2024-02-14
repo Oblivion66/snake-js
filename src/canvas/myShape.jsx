@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stage, Layer, Rect } from "react-konva";
 
-const myShape = ({children, ...props}) => {
+const myShape = () => {
   return (
     <Stage width={200} height={200}>
       <Layer>

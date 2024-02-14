@@ -12,6 +12,6 @@
     margin-right:auto;
     outline: 10px solid $canvas-outlinecolor;
     background-color: $canvas-bgcolor;
-    z-index: 0;
+    z-index: -1;
     box-shadow: 0 0 256px 32px $canvas-bgcolor;
 }
