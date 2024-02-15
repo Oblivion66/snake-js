@@ -1,6 +1,6 @@
 import React from 'react';
-import classes from './Button.module.scss';
-import './Button.scss';
+import classes from '../UI/Button.module.scss';
+import '../UI/Button.scss';
 
 const MyButton = ({children, ...props}) => {
     return (

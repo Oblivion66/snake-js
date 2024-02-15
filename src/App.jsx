@@ -5,8 +5,8 @@ import Food from "./components/Food";
 import Menu from "./components/Menu";
 import Button from "./components/Button";
 import Canvas from "./canvas/Canvas";;
-import './canvas/Canvas.scss';
-import './App.scss';
+import './UI/Canvas.scss';
+import './UI//App.scss';
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);

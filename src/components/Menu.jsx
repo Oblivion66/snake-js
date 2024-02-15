@@ -1,5 +1,5 @@
 import React from 'react';
-import './Menu.scss'
+import '../UI//Menu.scss'
 
 const Menu = ({active, setActive, children}) => {
     return (
