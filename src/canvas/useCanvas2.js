@@ -4,12 +4,6 @@ import '../UI/styles.scss';
 
 const useCanvas = draw => {
 
-  const ref = useRef(null)
- 
-  useEffect(() => {
-    
-  const canvas = ref.current
-  const ctx = canvas.getContext('2d')
   const box = 25;
   let score = 0
 
@@ -17,6 +11,28 @@ const useCanvas = draw => {
     width:40,
     height:20,
   }
+
+  let food = {
+    x: 1,
+    y: 1,
+  }
+  let snake = [];
+  snake[0] = {
+    x: 18 * box,
+    y: 9 * box,
+  }
+
+  let direction;
+
+  const ref = useRef(null)
+ 
+
+  
+  useEffect(() => {
+    
+  const canvas = ref.current
+  const ctx = canvas.getContext('2d')
+
 
   function createCanvasGrid(grid) {
       const canvasWidth = 1000;
@@ -50,17 +66,7 @@ const useCanvas = draw => {
 
   
 
-  let food = {
-    x: 1,
-    y: 1,
-  }
-  let snake = [];
-  snake[0] = {
-    x: 18 * box,
-    y: 9 * box,
-  }
 
-  let direction;
 
   document.addEventListener("keydown", function(event) {
 
@@ -95,58 +101,58 @@ const useCanvas = draw => {
     y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
   }
 
-  function runGame() {
 
-// -----------------------------------------------------------------------------------------------------
-// --------------------------------------------Фрукт----------------------------------------------------
-// -----------------------------------------------------------------------------------------------------
+  function spawnSnake() {
+    for(let i = 0; i < snake.length; i++) {
+      ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
+      ctx.fillRect(snake[i].x, snake[i].y, box, box);
+    }
 
-
-        
-      ctx.fillStyle = "red";
-      ctx.fillRect(food.x, food.y, box, box);
-
-// -----------------------------------------------------------------------------------------------------
-// --------------------------------------------Змейка---------------------------------------------------
-// -----------------------------------------------------------------------------------------------------
+    let snakeX = snake[0].x;
+    let snakeY = snake[0].y;
   
-      for(let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
-        ctx.fillRect(snake[i].x, snake[i].y, box, box);
-      }
-  
-      let snakeX = snake[0].x;
-      let snakeY = snake[0].y;
-    
-      if(snakeX == food.x && snakeY == food.y) {
-        score++;
-        food = {
-          x: Math.floor((Math.random() * grid.width + 1)) * box,
-          y: Math.floor((Math.random() * grid.height + 1)) * box,
-        };
-      } else
-        snake.pop();
-    
-      if(snakeX < box || snakeX > box * grid.width
-        || snakeY < 1 * box || snakeY > box * grid.height)
-        clearInterval(game);
-    
-      if(direction == "left") snakeX -= box;
-      if(direction == "right") snakeX += box;
-      if(direction == "up") snakeY -= box;
-      if(direction == "down") snakeY += box;
-    
-      let newHead = {
-        x: snakeX,
-        y: snakeY,
+    if(snakeX == food.x && snakeY == food.y) {
+      score++;
+      food = {
+        x: Math.floor((Math.random() * grid.width + 1)) * box,
+        y: Math.floor((Math.random() * grid.height + 1)) * box,
       };
-    
-      eatTail(newHead, snake);
-    
-      snake.unshift(newHead);
+    } else
+      snake.pop();
+  
+    if(snakeX < box || snakeX > box * grid.width
+      || snakeY < 1 * box || snakeY > box * grid.height)
+      clearInterval(game);
+  
+    if(direction == "left") snakeX -= box;
+    if(direction == "right") snakeX += box;
+    if(direction == "up") snakeY -= box;
+    if(direction == "down") snakeY += box;
+  
+    let newHead = {
+      x: snakeX,
+      y: snakeY,
+    };
+  
+    eatTail(newHead, snake);
+  
+    snake.unshift(newHead);
   }
 
-  let game = setInterval(runGame, 150);
+  function runGame() {
+        
+      ctx.fillStyle = "rgb(209, 0, 66)";
+      ctx.fillRect(food.x, food.y, box, box);
+      spawnSnake();
+
+// --------------------------------------------Змейка---------------------------------------------------
+  
+     
+
+      console.log(score);
+  }
+
+  let game = setInterval(runGame, 125);
 
     return () => {
       window.cancelAnimationFrame(animationId)
