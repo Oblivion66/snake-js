@@ -2,30 +2,35 @@ import { useRef, useEffect } from 'react';
 import '../UI/styles.scss';
 
 
-const useCanvas = draw => {
-  
-  const ref = useRef(null)
-  // const foodImg = new Image;
-  // foodImg.src = '../assets/redFruit.png';
+const useCanvas = () => {
+
   const box = 25;
+  let score = 0
+
+  let grid = {
+    width:40,
+    height:20,
+  }
+
+  let food = {
+    x: 1,
+    y: 1,
+  }
+  let snake = [];
+  snake[0] = {
+    x: 18 * box,
+    y: 9 * box,
+  }
+
+  let direction;
+
+  const ref = useRef(null)
  
-  
   useEffect(() => {
     
-    const canvas = ref.current
-    const ctx = canvas.getContext('2d')
-    let food = {
-      x: 1,
-      y: 1,
-    }
-    let score = 0
-    
-    let animationId
-  
-    let grid = {
-      width:40,
-      height:20,
-    }
+  const canvas = ref.current
+  const ctx = canvas.getContext('2d')
+
 
   function createCanvasGrid(grid) {
       const canvasWidth = 1000;
@@ -56,29 +61,33 @@ const useCanvas = draw => {
   }
 
   createCanvasGrid(grid);
+
   
-  function generateFood(ctx, food) {
+  document.addEventListener("keydown", function(event) {
 
-    food = {
-      x: Math.floor(Math.random()  * (grid.width - 1) + 1) * box,
-      y: Math.floor(Math.random()  * (grid.height - 1) + 1) * box,
+    if (event.code == 'ArrowLeft' && direction != "right") direction = "left";
+    if (event.code == 'ArrowUp' && direction != "down") direction = "up"
+    if (event.code == 'ArrowRight' && direction != "left") direction = "right";
+    if (event.code == 'ArrowDown' && direction != "up")direction = "down";
+  })
+
+  function eatTail(head, arr) {
+    for(let i = 0; i < arr.length; i++) {
+      if(head.x == arr[i].x && head.y == arr[i].y)
+        clearInterval(game);
     }
-
-    ctx.fillStyle = "red";
-    ctx.fillRect(food.x, food.y, box, box);
-
   }
 
-  function spawnSnake(ctx) {
 
-    let snake = [];
-    snake[0] = {
-      x: 18 * box,
-      y: 9 * box,
-    }
+  food = {
+    x: Math.floor(Math.random() * (grid.width - 1) + 1) * box,
+    y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
+  }
 
+
+  function spawnSnake() {
     for(let i = 0; i < snake.length; i++) {
-      ctx.fillStyle = "rgb(35, 130, 254)";
+      ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
       ctx.fillRect(snake[i].x, snake[i].y, box, box);
     }
 
@@ -94,8 +103,8 @@ const useCanvas = draw => {
     } else
       snake.pop();
   
-    if(snakeX < box || snakeX > box * grid.width
-      || snakeY < 1 * box || snakeY > box * grid.height)
+    if(snakeX < box || snakeX >= box * grid.width
+      || snakeY < box || snakeY >= box * grid.height)
       clearInterval(game);
   
     if(direction == "left") snakeX -= box;
@@ -105,7 +114,7 @@ const useCanvas = draw => {
   
     let newHead = {
       x: snakeX,
-      y: snakeY
+      y: snakeY,
     };
   
     eatTail(newHead, snake);
@@ -113,56 +122,24 @@ const useCanvas = draw => {
     snake.unshift(newHead);
   }
 
-  let direction;
-
-  const cheackDirection = () => console.log(direction)
-
-  document.addEventListener("keydown", function(event){
-
-    if (event.code == 'ArrowLeft' && direction != "right") {
-      direction = "left";
-      cheackDirection();
-    };
-    if (event.code == 'ArrowUp' && direction != "down") {
-      direction = "up";
-      cheackDirection();
-    };
-    if (event.code == 'ArrowRight' && direction != "left") {
-      direction = "right";
-      cheackDirection();
-    };
-    if (event.code == 'ArrowDown' && direction != "up") {
-      direction = "down";
-      cheackDirection();
-    };
-  })
-
-  function eatTail(head, arr) {
-    for(let i = 0; i < arr.length; i++) {
-      if(head.x == arr[i].x && head.y == arr[i].y)
-        clearInterval(game);
-    }
-  }
-
-
   function runGame() {
-    generateFood(ctx, grid, food);
-    spawnSnake(ctx);
-    eatTail(newHead, snake);
+        
+      ctx.fillStyle = "rgb(209, 0, 66)";
+      ctx.fillRect(food.x, food.y, box, box);
+      spawnSnake();
+
+      console.log(score);
   }
 
-  let game = setInterval(runGame, 100);
+  let game = setInterval(runGame, 150);
 
-
-
-
-    
     return () => {
-      window.cancelAnimationFrame(animationId)
+
     }
-  }, [draw])
+  })
   
   return ref
+
 }
 
 export default useCanvas

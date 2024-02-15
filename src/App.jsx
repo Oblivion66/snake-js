@@ -6,18 +6,10 @@ import Menu from "./components/Menu";
 import Button from "./components/Button";
 import Canvas from "./canvas/Canvas";;
 import './UI/Canvas.scss';
-import './UI//App.scss';
+import './UI/App.scss';
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
-
-  const draw = (context,count) => {
-    context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-    context.fillStyle = 'grey'
-    const d = count % 800
-    context.fillRect(10 +d , 10  , 100 , 100)
-  }
-
   
   return (
     <div className='app'>
@@ -34,7 +26,7 @@ const App = () => {
         </Menu>
 
       
-        <Canvas className="game-field" draw={draw}/>
+        <Canvas className="game-field"/>
 
         <Button id='start-game-btn'>Начать игру</Button>
         <Button id='quit-game-btn'>Завершить игру</Button>
