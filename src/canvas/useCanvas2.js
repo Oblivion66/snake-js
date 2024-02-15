@@ -3,7 +3,7 @@ import '../UI/styles.scss';
 
 
 const useCanvas = draw => {
-  
+
   const ref = useRef(null)
  
   useEffect(() => {
@@ -90,28 +90,28 @@ const useCanvas = draw => {
   }
 
 
+  food = {
+    x: Math.floor(Math.random() * (grid.width - 1) + 1) * box,
+    y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
+  }
+
   function runGame() {
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------Фрукт----------------------------------------------------
 // -----------------------------------------------------------------------------------------------------
 
-    food = {
-        x: Math.floor(Math.random()  * (grid.width - 1) + 1) * box,
-        y: Math.floor(Math.random()  * (grid.height - 1) + 1) * box,
-      }
-  
+
+        
       ctx.fillStyle = "red";
       ctx.fillRect(food.x, food.y, box, box);
-
-
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------Змейка---------------------------------------------------
 // -----------------------------------------------------------------------------------------------------
   
       for(let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = "rgb(35, 130, 254)";
+        ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
       }
   
@@ -138,7 +138,7 @@ const useCanvas = draw => {
     
       let newHead = {
         x: snakeX,
-        y: snakeY
+        y: snakeY,
       };
     
       eatTail(newHead, snake);
@@ -146,12 +146,8 @@ const useCanvas = draw => {
       snake.unshift(newHead);
   }
 
-  let game = setInterval(runGame, 100);
+  let game = setInterval(runGame, 150);
 
-
-
-
-    
     return () => {
       window.cancelAnimationFrame(animationId)
     }
