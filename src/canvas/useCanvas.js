@@ -103,8 +103,8 @@ const useCanvas = () => {
     } else
       snake.pop();
   
-    if(snakeX < box || snakeX >= box * grid.width
-      || snakeY < box || snakeY >= box * grid.height)
+    if(snakeX < 0 || snakeX >= box * grid.width
+      || snakeY < 0 || snakeY >= box * grid.height)
       clearInterval(game);
   
     if(direction == "left") snakeX -= box;
