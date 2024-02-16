@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Children, useState } from "react";
 import React, { Component } from "react";
 import Menu from "./components/Menu";
 import Button from "./components/Button";
@@ -9,6 +9,7 @@ import "./UI/App.scss";
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
 
+
   return (
     <div className="app">
       <div className="content">
@@ -16,6 +17,8 @@ const App = () => {
           <Button id="open-menu" onClick={() => setMenuActive(true)}>
             Меню
           </Button>
+
+          {/* <Counter id="score-counter" >Счет: </Counter> */}
 
           <Menu active={menuActive} setActive={setMenuActive}>
             <button className="menu-buttons">Продолжить</button>
@@ -29,8 +32,9 @@ const App = () => {
 
         <Canvas className="game-field" />
 
-        <Button id="start-game-btn" >Начать игру</Button>
+        <Button id="start-game-btn">Начать игру</Button>
         <Button id="quit-game-btn" >Завершить игру</Button>
+        
         
       </div>
     </div>

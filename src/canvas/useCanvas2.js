@@ -2,9 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "../UI/styles.scss";
 
 const useCanvas = () => {
-  document.addEventListener("click", function resetGame() {
-    clearInterval(game);
-  });
+
 
   const box = 25;
   let score = 0;
@@ -115,18 +113,25 @@ const useCanvas = () => {
       snake.unshift(newHead);
     }
 
+    
+
     function runGame() {
       createCanvasGrid();
       spawnSnake();
       ctx.fillStyle = "rgb(209, 0, 66)";
       ctx.fillRect(food.x, food.y, box, box);
 
-      ctx.fillStyle = "white";
-      ctx.font = "36px Arial";
-      ctx.fillText(score, -box , -box );
+      
+      
+      
     }
 
     let game = setInterval(runGame, 200);
+
+    console.log(score)
+
+
+
   });
 
   return ref;
