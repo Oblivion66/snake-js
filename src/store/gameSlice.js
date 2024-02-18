@@ -3,18 +3,22 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   width: 1000,
   height: 500,
+  direction: '',
   box: 25,
   grid: {
     width: 40,
     height: 20,
   },
-  food: { x: 0, y: 0 },
-  snake: [{ 
-    x: 18 * 25, 
-    y: 9 * 25 
-  }],
+  food: { 
+    x: Math.floor(Math.random() * (40- 1) + 1) * 25,
+    y: Math.floor(Math.random() * (20 - 1) + 1) * 25,
+  },
+  snake: [],
+  snakeX: 18 * 25,
+  snakeY: 18 * 25,
   score: 0,
   recordScore: 0,
+  time: 0,
   isGameOver: false,
   isGamePaused: false,
   diffucultyLevel: 'normal',
@@ -27,11 +31,17 @@ export const gameSlice = createSlice({
     setFood: (state, action) => {
       state.food = action.payload;
     },
+    setSnake: (state, action) => {
+      state.snake = action.payload;
+    },
     moveSnake: (state, action) => {
       
     },
     increaseScore: (state, action) => {
       state.score += action.payload;
+    },
+    timer: (state, action) => {
+      state.time += action.payload;
     },
     setGameOver: (state, action) => {
       state.isGameOver = true;
@@ -56,6 +66,7 @@ export const gameSlice = createSlice({
 
 export const {
   setFood,
+  setSnake,
   moveSnake,
   increaseScore,
   setGameOver,

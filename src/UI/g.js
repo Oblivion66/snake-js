@@ -86,11 +86,6 @@ const useCanvas = () => {
           snakeY += box;
       }
 
-      // if (direction == "left") snakeX -= box;
-      // if (direction == "right") snakeX += box;
-      // if (direction == "up") snakeY -= box;
-      // if (direction == "down") snakeY += box;
-
       let newHead = {
         x: snakeX,
         y: snakeY,

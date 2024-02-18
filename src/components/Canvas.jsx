@@ -1,5 +1,5 @@
 import React from 'react'
-import useCanvas from '../feauters/useCanvas.js'
+import useCanvas from '../feauters/useCanvas2.js'
 import '../UI//Canvas.scss'
 
 

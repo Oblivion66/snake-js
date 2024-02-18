@@ -14,13 +14,10 @@ const App = () => {
   return (
     <div className="app">
       <div className="content">
-        <main>
+        <main className="top-bar">
           <Button id="open-menu" onClick={() => setMenuActive(true)}>
             Меню
           </Button>
-
-          
-
           <Menu active={menuActive} setActive={setMenuActive}>
             <button className="menu-buttons">Продолжить</button>
             <button className="menu-buttons">Рекорд</button>
@@ -29,10 +26,12 @@ const App = () => {
               Завершить игру
             </button>
           </Menu>
+
+          <Counter className="score-counter"></Counter>
         </main>
         
 
-        <Counter className="score-counter"></Counter>
+      
         <Canvas className="game-field" />
 
         <Button id="start-game-btn">Начать игру</Button>

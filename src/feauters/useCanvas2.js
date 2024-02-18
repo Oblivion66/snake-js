@@ -1,28 +1,32 @@
 import React, { useState, useRef, useEffect } from "react";
+import store from "../store/store";
+import actions, { increaseScore } from "../store/gameSlice";
 import "../UI/styles.scss";
+import { useSelector, useDispatch } from "react-redux";
+import Snake from "./Snake";
+import Game from "./Game";
+
 
 const useCanvas = () => {
 
-  const box = 25;
-  let score = 0;
+  const ref = useRef(null);
+  const dispatch = useDispatch();
+  const width = useSelector(state => state.game.width);
+  const height = useSelector(state => state.game.height);
+  const box = useSelector(state => state.game.box);
+  let score = useSelector(state => state.game.score);
+  const grid = useSelector(state => state.game.grid);
 
-  let grid = {
-    width: 40,
-    height: 20,
-  };
+  let food = useSelector(state => state.game.food)
 
-  let food = {
-    x: Math.floor(Math.random() * (grid.width - 1) + 1) * box,
-    y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
-  };
+  const [snake, setSnake] = useState([
+    {
+      x: 18 * box,
+      y: 9 * box,
+    },
+  ]);
 
-  let snake = [];
-  snake[0] = {
-    x: 18 * box,
-    y: 9 * box,
-  };
-
-  let direction;
+  let direction = useSelector(state => state.game.direction);
 
   document.addEventListener("keydown", function (event) {
     if (event.code == "ArrowLeft" && direction != "right") direction = "left";
@@ -31,13 +35,11 @@ const useCanvas = () => {
     if (event.code == "ArrowDown" && direction != "up") direction = "down";
   });
 
-  const ref = useRef(null);
-
   useEffect(() => {
     const canvas = ref.current;
     const ctx = canvas.getContext("2d");
-    const canvasWidth = 1000;
-    const canvasHeight = 500;
+    const canvasWidth = width;
+    const canvasHeight = height;
 
     function createCanvasGrid() {
       canvas.width = canvasWidth;
@@ -82,7 +84,7 @@ const useCanvas = () => {
       let snakeY = snake[0].y;
 
       if (snakeX == food.x && snakeY == food.y) {
-        score++;
+        score = dispatch(increaseScore(1))
         food = {
           x: Math.floor(Math.random() * (grid.width - 1) + 1) * box,
           y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
@@ -112,20 +114,14 @@ const useCanvas = () => {
       snake.unshift(newHead);
     }
 
-    
-
     function runGame() {
       createCanvasGrid();
       spawnSnake();
       ctx.fillStyle = "rgb(209, 0, 66)";
       ctx.fillRect(food.x, food.y, box, box);
-
     }
 
     let game = setInterval(runGame, 200);
-
-    console.log(score)
-
 
 
   });

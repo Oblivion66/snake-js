@@ -6,10 +6,10 @@ import { Provider, createDispatchHook, createSelectorHook } from "react-redux";
 import store from "../store/store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
+    // <React.StrictMode>
       <Provider store={store}>
       <App />
       </Provider>
-    </React.StrictMode>
+    // </React.StrictMode>
   
 );
