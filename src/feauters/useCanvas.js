@@ -1,12 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
+import store from "../store/store";
+import {
+  setFood,
+  moveSnake,
+  increaseScore,
+  setGameOver,
+  togglePause,
+  resetGame,
+  setRecord,
+} from "../store/gameSlice";
 import "../UI/styles.scss";
+import { useSelector, useDispatch } from "react-redux";
 
 const useCanvas = () => {
   const ref = useRef(null);
   const width = 1000;
   const height = 500;
   const box = 25;
-  let score = 0;
+  const dispatch = useDispatch();
+  const score = 0;
+
 
   const grid = {
     width: 40,
@@ -28,22 +41,20 @@ const useCanvas = () => {
     },
   ]);
 
-  const [direction, setDirection] = useState("");
+  let direction = "";
   const [food, setFood] = useState(randomPosition);
 
   const changeDirectionWithKeys = (e) => {
     var { keyCode } = e;
-    if (keyCode == "37" && direction != "right") setDirection("left");
-    if (keyCode == "38" && direction != "down") setDirection("up");
-    if (keyCode == "39" && direction != "left") setDirection("right");
-    if (keyCode == "40" && direction != "up") setDirection("down");
+    if (keyCode == "37" && direction != "right") direction = "left";
+    if (keyCode == "38" && direction != "down") direction = "up";
+    if (keyCode == "39" && direction != "left") direction = "right";
+    if (keyCode == "40" && direction != "up") direction = "down";
   };
 
   document.addEventListener("keydown", changeDirectionWithKeys, false);
 
   useEffect(() => {
-
-
     const eatTail = (head, arr) => {
       for (let i = 0; i < arr.length; i++) {
         if (head.x == arr[i].x && head.y == arr[i].y) clearInterval(game);
@@ -64,32 +75,32 @@ const useCanvas = () => {
         snakeX >= box * grid.width ||
         snakeY < 0 ||
         snakeY >= box * grid.height
-      ) clearInterval(game);
+      )
+        clearInterval(game);
 
       if (snakeX == food.x && snakeY == food.y) {
         score++;
         setFood(randomPosition);
       } else snake.pop();
-      
 
-    //   switch (direction) {
-    //     case "left":
-    //       snakeX -= box;
-    //       break;
-    //     case "right":
-    //       snakeX += box;
-    //       break;
-    //     case "up":
-    //       snakeY -= box;
-    //       break;
-    //     case "down":
-    //       snakeY += box;
-    //   }
+      switch (direction) {
+        case "left":
+          snakeX -= box;
+          break;
+        case "right":
+          snakeX += box;
+          break;
+        case "up":
+          snakeY -= box;
+          break;
+        case "down":
+          snakeY += box;
+      }
 
-      if (direction == "left") snakeX -= box;
-      if (direction == "right") snakeX += box;
-      if (direction == "up") snakeY -= box;
-      if (direction == "down") snakeY += box;
+      // if (direction == "left") snakeX -= box;
+      // if (direction == "right") snakeX += box;
+      // if (direction == "up") snakeY -= box;
+      // if (direction == "down") snakeY += box;
 
       let newHead = {
         x: snakeX,
@@ -98,7 +109,6 @@ const useCanvas = () => {
 
       eatTail(newHead, snake);
       snake.unshift(newHead);
-
     };
 
     const canvas = ref.current;
@@ -128,15 +138,13 @@ const useCanvas = () => {
 
       return canvas;
     }
-    
+
     function runGame() {
       createCanvasGrid(grid);
 
       ctx.fillStyle = "rgb(209, 0, 66)";
       ctx.fillRect(food.x, food.y, box, box);
       spawnSnake();
-
-      console.log(score);
     }
 
     let game = setInterval(runGame, 100);

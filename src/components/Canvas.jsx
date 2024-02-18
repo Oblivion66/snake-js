@@ -1,6 +1,7 @@
 import React from 'react'
-import useCanvas from '../features/useCanvas.js'
+import useCanvas from '../feauters/useCanvas.js'
 import '../UI//Canvas.scss'
+
 
 const Canvas = props => {  
   

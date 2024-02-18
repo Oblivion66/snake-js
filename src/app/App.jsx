@@ -6,11 +6,10 @@ import Canvas from "../components/Canvas";
 import "../UI/Canvas.scss";
 import "../UI/App.scss";
 import { useDispatch, useSelector } from "react-redux";
+import Counter from "../components/Counter";
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
-
-
 
   return (
     <div className="app">
@@ -33,7 +32,7 @@ const App = () => {
         </main>
         
 
-
+        <Counter className="score-counter"></Counter>
         <Canvas className="game-field" />
 
         <Button id="start-game-btn">Начать игру</Button>
