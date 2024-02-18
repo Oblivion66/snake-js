@@ -3,7 +3,6 @@ import "../UI/styles.scss";
 
 const useCanvas = () => {
 
-
   const box = 25;
   let score = 0;
 
@@ -121,9 +120,6 @@ const useCanvas = () => {
       ctx.fillStyle = "rgb(209, 0, 66)";
       ctx.fillRect(food.x, food.y, box, box);
 
-      
-      
-      
     }
 
     let game = setInterval(runGame, 200);
