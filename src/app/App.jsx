@@ -2,8 +2,8 @@ import { Children, useState } from "react";
 import React, { Component } from "react";
 import Menu from "../components/Menu";
 import Button from "../components/Button";
-import Canvas from "../canvas/Canvas";
-import "./UI/Canvas.scss";
+import Canvas from "../components/Canvas";
+import "../UI/Canvas.scss";
 import "../UI/App.scss";
 import { useDispatch, useSelector } from "react-redux";
 
