@@ -17,11 +17,12 @@ import {
 function Counter() {
   const count = useSelector((state) => state.counter.score);
   const record = useSelector((state) => state.counter.record);
+  const score = useSelector((state) => state.game.score)
   const dispatch = useDispatch();
-    const score = useSelector((state) => state.game.score)
+    
   return (
     <div>
-      <div>Count: {score}</div>
+      <div>Count: {count}</div>
       <div >Record: {record}</div>
       <button onClick={() => dispatch(increment(5))}>Increment</button>
       <button onClick={() => dispatch(decrement())}>Decrement</button>

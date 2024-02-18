@@ -64,6 +64,4 @@ export const {
   setRecord
 } = gameSlice.actions;
 
-export default configureStore({
-  reducer: gameSlice.reducer,
-});
+export default gameSlice.reducer;
