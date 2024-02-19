@@ -12,8 +12,7 @@ const useCanvas = (draw, ref) => {
   const grid = useSelector((state) => state.game.grid);
   const isGameOver = useSelector(state => state.game.isGameOver);
   const isGamePaused = useSelector(state => state.game.isGamepaused);
-
-  let food = useSelector((state) => state.game.food);
+  const food = useSelector((state) => state.game.food);
 
   const [snake, setSnake] = useState([
     {
@@ -26,7 +25,7 @@ const useCanvas = (draw, ref) => {
 
   useEffect(() => {
     if (isGameOver) {
-      alert("Игра окончена");
+
     }
   }, [isGameOver])
 
@@ -177,7 +176,7 @@ const useCanvas = (draw, ref) => {
     return () => {
       clearInterval(game);
     }
-  }, [box, direction, dispatch, food, grid.height, grid.width, height, ref, snake, width]);
+  }, [box, direction, dispatch, food, grid.height, grid.width, height, isGameOver, ref, snake, width]);
 
   return ref;
 };

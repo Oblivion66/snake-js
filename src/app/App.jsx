@@ -7,7 +7,7 @@ import "../UI/Canvas.scss";
 import "../UI/App.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Counter from "../components/Counter";
-import { increaseScore, setFood, setDirection, setGameOver, setPause } from "../store/gameSlice";
+import { increaseScore, setFood, setDirection, setGameOver, setPause, resetGame, } from "../store/gameSlice";
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -41,7 +41,7 @@ const App = () => {
 
         <Button id="start-game-btn" onClick={() => {
           dispatch(setGameOver(true)); 
-          dispatch(setDirection('right'));
+          dispatch(resetGame());
           }}>
             Начать игру</Button>
         <Button id="quit-game-btn" onClick={() => dispatch(setGameOver(true))}>Завершить игру</Button>

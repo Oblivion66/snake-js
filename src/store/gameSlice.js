@@ -1,25 +1,33 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
+const width = 1000;
+const height = 500;
+const box = 25;
+const grid = {
+  width: 40,
+  height: 20,
+}
+const snake = [{
+  x: ( grid.width / 2 - 2 ) * box,
+  y: ( grid.height / 2 - 1 ) * box,
+}]
+
 const initialState = {
-  width: 1000,
-  height: 500,
+  width: width,
+  height: height,
   direction: '',
-  box: 25,
-  grid: {
-    width: 40,
-    height: 20,
-  },
+  box: box,
+  grid: grid,
+  // randX: Math.floor(Math.random() * (40- 1) + 1) * 25,
+  // randY: Math.floor(Math.random() * (20 - 1) + 1) * 25,
   food: { 
-    x: Math.floor(Math.random() * (40- 1) + 1) * 25,
-    y: Math.floor(Math.random() * (20 - 1) + 1) * 25,
+    x: Math.floor(Math.random() * (grid.width- 1) + 1) * box,
+    y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
   },
-  snake: [],
-  newHead: {
-    x: 0,
-    y: 0,
-  },
-  snakeX: 18 * 25,
-  snakeY: 18 * 25,
+  snake: [{
+    x: snake[0].x,
+    y: snake[0].y,
+  }],
   score: 0,
   recordScore: 0,
   time: 0,
