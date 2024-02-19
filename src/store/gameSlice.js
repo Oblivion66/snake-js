@@ -9,11 +9,17 @@ const initialState = {
     width: 40,
     height: 20,
   },
+  // randX: Math.floor(Math.random() * (40- 1) + 1) * 25,
+  // randY: Math.floor(Math.random() * (20 - 1) + 1) * 25,
   food: { 
     x: Math.floor(Math.random() * (40- 1) + 1) * 25,
     y: Math.floor(Math.random() * (20 - 1) + 1) * 25,
   },
   snake: [],
+  newHead: {
+    x: 0,
+    y: 0,
+  },
   snakeX: 18 * 25,
   snakeY: 18 * 25,
   score: 0,
@@ -28,14 +34,38 @@ export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setFood: (state, action) => {
-      state.food = action.payload;
+    setFood: (state) => {
+      state.food = { 
+        x: Math.floor(Math.random() * (state.grid.width - 1) + 1) * state.box,
+        y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
+      };
     },
-    setSnake: (state, action) => {
-      state.snake = action.payload;
+    setSnake: (state) => {
+      state.snake = [{
+        x: 18 * state.box,
+        y: 9 * state.box,
+      }];
+    },
+    setDirection: (state, action) => {
+      state.direction = action.payload;
     },
     moveSnake: (state, action) => {
-      
+      // state.newHead = { x: state.snake[0].x, y: state.snake[0].y };
+      // switch (state.direction) {
+      //   case 'up':
+      //     newHead.y -= state.box;
+      //     break;
+      //   case 'down':
+      //     newHead.y += state.box;
+      //     break;
+      //   case 'left':
+      //     newHead.x -= state.box;
+      //     break;
+      //   case 'right':
+      //     newHead.x += state.box;
+      //     break;
+      //   default:
+      //     break;
     },
     increaseScore: (state, action) => {
       state.score += action.payload;
@@ -72,7 +102,9 @@ export const {
   setGameOver,
   togglePause,
   resetGame,
-  setRecord
+  setRecord,
+  setDirection,
+  timer,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -32,7 +32,7 @@ const App = () => {
         
 
       
-        <Canvas className="game-field" />
+        <Canvas id="game-field" className="game-field" />
 
         <Button id="start-game-btn">Начать игру</Button>
         <Button id="quit-game-btn" >Завершить игру</Button>

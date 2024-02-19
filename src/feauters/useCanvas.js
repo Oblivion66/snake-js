@@ -122,6 +122,7 @@ const useCanvas = () => {
     }
 
     function runGame() {
+      console.log('rerun');
       createCanvasGrid(grid);
 
       ctx.fillStyle = "rgb(209, 0, 66)";
@@ -130,7 +131,9 @@ const useCanvas = () => {
       console.log(score)
     }
 
-    let game = setInterval(runGame, 100);
+    // let game = setInterval(runGame, 100);
+
+    // return () => clearInterval(game);
   });
 
   return ref;

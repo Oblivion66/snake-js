@@ -1,43 +1,58 @@
-import React, { useState, useRef, useEffect } from "react";
-import store from "../store/store";
-import actions, { increaseScore } from "../store/gameSlice";
+import { useState, useRef, useEffect } from "react";
+import { increaseScore, setFood, setDirection, setGameOver } from "../store/gameSlice";
 import "../UI/styles.scss";
 import { useSelector, useDispatch } from "react-redux";
-import Snake from "./Snake";
-import Game from "./Game";
+// import Snake from "./Snake";
+// import Gme from "./Game";
 
-
-const useCanvas = () => {
-
-  const ref = useRef(null);
+const useCanvas = (draw, ref) => {
+  // const ref = useRef(null);
   const dispatch = useDispatch();
-  const width = useSelector(state => state.game.width);
-  const height = useSelector(state => state.game.height);
-  const box = useSelector(state => state.game.box);
-  let score = useSelector(state => state.game.score);
-  const grid = useSelector(state => state.game.grid);
+  const width = useSelector((state) => state.game.width);
+  const height = useSelector((state) => state.game.height);
+  const box = useSelector((state) => state.game.box);
+  // let score = useSelector((state) => state.game.score);
+  const grid = useSelector((state) => state.game.grid);
+  const isGameOver = useSelector(state => state.game.isGameOver);
 
-  let food = useSelector(state => state.game.food)
+  // const isGameOver = useSelector(state => state.game.isGameOver);
+
+  let food = useSelector((state) => state.game.food);
 
   const [snake, setSnake] = useState([
     {
       x: 18 * box,
       y: 9 * box,
-    },
+    }
   ]);
+  console.log('snake', snake)
 
-  let direction = useSelector(state => state.game.direction);
+  // const snake = useSelector(state => state.game.snake);
+  // snake = dispatch(setSnake(snake))
+  console.log(snake)
 
-  document.addEventListener("keydown", function (event) {
-    if (event.code == "ArrowLeft" && direction != "right") direction = "left";
-    if (event.code == "ArrowUp" && direction != "down") direction = "up";
-    if (event.code == "ArrowRight" && direction != "left") direction = "right";
-    if (event.code == "ArrowDown" && direction != "up") direction = "down";
-  });
+  const direction = useSelector((state) => state.game.direction);
 
   useEffect(() => {
+    
+  const dir = function (event) {
+
+    if (event.code == "ArrowLeft" && direction != "right") dispatch(setDirection("left"));
+    if (event.code == "ArrowUp" && direction != "down") dispatch(setDirection("up"));
+    if (event.code == "ArrowRight" && direction != "left") dispatch(setDirection("right"));
+    if (event.code == "ArrowDown" && direction != "up") dispatch(setDirection("down"));
+  };
+
+  document.addEventListener("keydown", dir);
+  return () => document.removeEventListener('keydown', dir)
+  }, [direction, dispatch]);
+
+  useEffect(() => {
+    console.log('createCanvasGrid');
     const canvas = ref.current;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+
     const canvasWidth = width;
     const canvasHeight = height;
 
@@ -67,64 +82,109 @@ const useCanvas = () => {
     }
 
     createCanvasGrid();
+  }, [grid.height, grid.width, height, ref, width, snake]);
 
-    function eatTail(head, arr) {
-      for (let i = 0; i < arr.length; i++) {
-        if (head.x == arr[i].x && head.y == arr[i].y) clearInterval(game);
-      }
-    }
-
-    function spawnSnake() {
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    console.log('snake 2', snake);
       for (let i = 0; i < snake.length; i++) {
         ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
         ctx.fillRect(snake[i].x, snake[i].y, box - 1, box - 1);
       }
+  }, [box, ref, snake]);
 
-      let snakeX = snake[0].x;
-      let snakeY = snake[0].y;
+  useEffect(() => {
+    if (isGameOver) {
+      console.log('isGameOver', isGameOver);
+    }
+  }, [isGameOver])
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "rgb(209, 0, 66)";
+      ctx.fillRect(food.x, food.y, box, box);
+  }, [box, food.x, food.y, ref, snake]);
+
+  useEffect(() => {
+    function isEatTail(head, arr) {
+      console.log('is tail h', head);
+      console.log('is tail a', arr);
+      for (let i = 0; i < arr.length; i++) {
+        if (head.x == arr[i].x && head.y == arr[i].y) {
+          console.log("eating tail", game)
+          clearInterval(game);
+          return true;
+        }
+      }
+    }
+
+    function spawnSnake() {
+      const newSnake = [...snake];
+      let snakeX = newSnake[0].x;
+      let snakeY = newSnake[0].y;
+
+      console.log('direction', direction);
+
+      if (!direction) return;
 
       if (snakeX == food.x && snakeY == food.y) {
-        score = dispatch(increaseScore(1))
-        food = {
-          x: Math.floor(Math.random() * (grid.width - 1) + 1) * box,
-          y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
-        };
-      } else snake.pop();
+        dispatch(increaseScore(1));
+        dispatch(setFood(food));
+      } else newSnake.pop();
+      console.log(111);
 
       if (
         snakeX < 0 ||
         snakeX >= box * grid.width ||
         snakeY < 0 ||
         snakeY >= box * grid.height
-      )
+      ) {
+        console.log("wall", game)
+        dispatch(setGameOver(true));
         clearInterval(game);
+        return;
+      }
+      console.log('direction');
 
       if (direction == "left") snakeX -= box;
       if (direction == "right") snakeX += box;
       if (direction == "up") snakeY -= box;
       if (direction == "down") snakeY += box;
+      
 
       let newHead = {
         x: snakeX,
         y: snakeY,
       };
 
-      eatTail(newHead, snake);
+      console.log('nnn');
+      const isFailed = isEatTail(newHead, newSnake);
+      if (isFailed) return;
 
-      snake.unshift(newHead);
+      newSnake.unshift(newHead);
+      setSnake(newSnake);
     }
 
     function runGame() {
-      createCanvasGrid();
+      console.log("rerun");
+
       spawnSnake();
-      ctx.fillStyle = "rgb(209, 0, 66)";
-      ctx.fillRect(food.x, food.y, box, box);
+      
     }
 
-    let game = setInterval(runGame, 200);
 
+    let game = setInterval(runGame, 100);
 
-  });
+    return () => {
+      console.log("this")
+      clearInterval(game);
+    }
+  }, [box, direction, dispatch, food, grid.height, grid.width, height, ref, snake, width]);
 
   return ref;
 };

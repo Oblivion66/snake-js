@@ -7,6 +7,8 @@ import Game from "./Game";
 import Snake from "./Snake";
 
 const Food = () => {
+    let food = useSelector(state => state.game.food)
+    
     return (
         <div>
             
