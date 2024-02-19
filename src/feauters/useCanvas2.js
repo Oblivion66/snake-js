@@ -1,21 +1,17 @@
-import { useState, useRef, useEffect } from "react";
-import { increaseScore, setFood, setDirection, setGameOver } from "../store/gameSlice";
+import { useState, useEffect } from "react";
+import { increaseScore, setFood, setDirection, setGameOver, setPause, } from "../store/gameSlice";
 import "../UI/styles.scss";
 import { useSelector, useDispatch } from "react-redux";
-// import Snake from "./Snake";
-// import Gme from "./Game";
+
 
 const useCanvas = (draw, ref) => {
-  // const ref = useRef(null);
   const dispatch = useDispatch();
   const width = useSelector((state) => state.game.width);
   const height = useSelector((state) => state.game.height);
   const box = useSelector((state) => state.game.box);
-  // let score = useSelector((state) => state.game.score);
   const grid = useSelector((state) => state.game.grid);
   const isGameOver = useSelector(state => state.game.isGameOver);
-
-  // const isGameOver = useSelector(state => state.game.isGameOver);
+  const isGamePaused = useSelector(state => state.game.isGamepaused);
 
   let food = useSelector((state) => state.game.food);
 
@@ -25,18 +21,24 @@ const useCanvas = (draw, ref) => {
       y: 9 * box,
     }
   ]);
-  console.log('snake', snake)
-
-  // const snake = useSelector(state => state.game.snake);
-  // snake = dispatch(setSnake(snake))
-  console.log(snake)
 
   const direction = useSelector((state) => state.game.direction);
 
   useEffect(() => {
+    if (isGameOver) {
+      alert("Игра окончена");
+    }
+  }, [isGameOver])
+
+  useEffect(() => {
+    if (isGamePaused) {
+      console.log('game is paused')
+    }
+  })
+
+  useEffect(() => {
     
   const dir = function (event) {
-
     if (event.code == "ArrowLeft" && direction != "right") dispatch(setDirection("left"));
     if (event.code == "ArrowUp" && direction != "down") dispatch(setDirection("up"));
     if (event.code == "ArrowRight" && direction != "left") dispatch(setDirection("right"));
@@ -96,12 +98,6 @@ const useCanvas = (draw, ref) => {
   }, [box, ref, snake]);
 
   useEffect(() => {
-    if (isGameOver) {
-      console.log('isGameOver', isGameOver);
-    }
-  }, [isGameOver])
-
-  useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -117,7 +113,6 @@ const useCanvas = (draw, ref) => {
       for (let i = 0; i < arr.length; i++) {
         if (head.x == arr[i].x && head.y == arr[i].y) {
           console.log("eating tail", game)
-          clearInterval(game);
           return true;
         }
       }
@@ -146,42 +141,40 @@ const useCanvas = (draw, ref) => {
       ) {
         console.log("wall", game)
         dispatch(setGameOver(true));
-        clearInterval(game);
         return;
       }
-      console.log('direction');
-
+      
+ 
       if (direction == "left") snakeX -= box;
       if (direction == "right") snakeX += box;
       if (direction == "up") snakeY -= box;
       if (direction == "down") snakeY += box;
-      
+    
 
       let newHead = {
         x: snakeX,
         y: snakeY,
       };
 
-      console.log('nnn');
       const isFailed = isEatTail(newHead, newSnake);
-      if (isFailed) return;
+      if (isFailed) {
+        dispatch(setGameOver(true))
+        return;
+      };
 
       newSnake.unshift(newHead);
       setSnake(newSnake);
     }
 
     function runGame() {
-      console.log("rerun");
-
+      if (isGameOver) return;
       spawnSnake();
       
     }
 
-
     let game = setInterval(runGame, 100);
 
     return () => {
-      console.log("this")
       clearInterval(game);
     }
   }, [box, direction, dispatch, food, grid.height, grid.width, height, ref, snake, width]);

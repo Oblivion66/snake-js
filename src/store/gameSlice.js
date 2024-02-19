@@ -9,8 +9,6 @@ const initialState = {
     width: 40,
     height: 20,
   },
-  // randX: Math.floor(Math.random() * (40- 1) + 1) * 25,
-  // randY: Math.floor(Math.random() * (20 - 1) + 1) * 25,
   food: { 
     x: Math.floor(Math.random() * (40- 1) + 1) * 25,
     y: Math.floor(Math.random() * (20 - 1) + 1) * 25,
@@ -74,19 +72,19 @@ export const gameSlice = createSlice({
       state.time += action.payload;
     },
     setGameOver: (state, action) => {
-      state.isGameOver = true;
+      state.isGameOver = action.payload;
     },
-    togglePause: (state, action) => {
-      state.isGamePaused = !state.isGamePaused;
+    setPause: (state, action) => {
+      state.isGamePaused = action.payload;
     },
-    resetGame: (state, action) => {
+    resetGame: (state) => {
       state.food = initialState.food;
       state.snake = initialState.snake;
       state.score = 0;
       state.isGameOver = false;
       state.isGamePaused = false;
     },
-    setRecord: (state, action) => {
+    setRecord: (state) => {
       if (state.record < state.score) {
         state.record += state.score
       }
@@ -100,7 +98,7 @@ export const {
   moveSnake,
   increaseScore,
   setGameOver,
-  togglePause,
+  setPause,
   resetGame,
   setRecord,
   setDirection,
