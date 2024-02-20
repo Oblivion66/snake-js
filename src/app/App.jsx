@@ -7,7 +7,16 @@ import "../UI/Canvas.scss";
 import "../UI/App.scss";
 import { useDispatch, useSelector } from "react-redux";
 import Counter from "../components/Counter";
-import { increaseScore, setFood, setDirection, setGameOver, setPause, resetGame, } from "../store/gameSlice";
+import {
+  increaseScore,
+  setFood,
+  setDirection,
+  setGameRunning,
+  setGameOver,
+  setGamePaused,
+  resetGame,
+} from "../store/gameSlice";
+import Record from "../components/Record";
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
@@ -17,15 +26,21 @@ const App = () => {
     <div className="app">
       <div className="content">
         <main className="top-bar">
-          <Button id="open-menu" onClick={() => {
-            setMenuActive(true);
-            dispatch(setPause(true));
-            }}>
+          <Button
+            id="open-menu"
+            onClick={() => {
+              setMenuActive(true);
+              dispatch(setGamePaused());
+            }}
+          >
             Меню
           </Button>
-          <Menu active={menuActive} setActive={setMenuActive}>
+          <Menu
+            active={menuActive}
+            setActive={setMenuActive}
+          >
             <button className="menu-buttons">Продолжить</button>
-            <button className="menu-buttons">Рекорд</button>
+            <button className="menu-buttons">Начать заново</button>
 
             <button className="menu-buttons" id="quit-game">
               Завершить игру
@@ -34,17 +49,21 @@ const App = () => {
 
           <Counter className="score-counter"></Counter>
         </main>
-        
 
-      
         <Canvas id="game-field" className="game-field" />
 
-        <Button id="start-game-btn" onClick={() => {
-          dispatch(setGameOver(true)); 
-          dispatch(resetGame());
-          }}>
-            Начать игру</Button>
-        <Button id="quit-game-btn" onClick={() => dispatch(setGameOver(true))}>Завершить игру</Button>
+        <Button
+          id="start-game-btn"
+          onClick={() => {
+            dispatch(resetGame());
+          }}
+        >
+          Начать игру
+        </Button>
+        <Record></Record>
+        <Button id="quit-game-btn" onClick={() => dispatch(setGameOver(true))}>
+          Завершить игру
+        </Button>
       </div>
     </div>
   );

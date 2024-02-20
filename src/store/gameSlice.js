@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const width = 1000;
 const height = 500;
@@ -18,8 +18,6 @@ const initialState = {
   direction: '',
   box: box,
   grid: grid,
-  // randX: Math.floor(Math.random() * (40- 1) + 1) * 25,
-  // randY: Math.floor(Math.random() * (20 - 1) + 1) * 25,
   food: { 
     x: Math.floor(Math.random() * (grid.width- 1) + 1) * box,
     y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
@@ -32,7 +30,7 @@ const initialState = {
   recordScore: 0,
   time: 0,
   isGameOver: false,
-  isGamePaused: false,
+  isGameRunning: false,
   diffucultyLevel: 'normal',
 };
 
@@ -46,55 +44,47 @@ export const gameSlice = createSlice({
         y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
       };
     },
-    setSnake: (state) => {
-      state.snake = [{
-        x: 18 * state.box,
-        y: 9 * state.box,
-      }];
+    setSnake: (state, action) => {
+      state.snake = action.payload;
     },
     setDirection: (state, action) => {
       state.direction = action.payload;
     },
-    moveSnake: (state, action) => {
-      // state.newHead = { x: state.snake[0].x, y: state.snake[0].y };
-      // switch (state.direction) {
-      //   case 'up':
-      //     newHead.y -= state.box;
-      //     break;
-      //   case 'down':
-      //     newHead.y += state.box;
-      //     break;
-      //   case 'left':
-      //     newHead.x -= state.box;
-      //     break;
-      //   case 'right':
-      //     newHead.x += state.box;
-      //     break;
-      //   default:
-      //     break;
-    },
     increaseScore: (state, action) => {
       state.score += action.payload;
     },
-    timer: (state, action) => {
-      state.time += action.payload;
+    startTimer: (state) => {
+      state.time += 1;
     },
-    setGameOver: (state, action) => {
-      state.isGameOver = action.payload;
+    setTimer: (state, action) => {
+      state.time = action.payload;
     },
-    setPause: (state, action) => {
-      state.isGamePaused = action.payload;
+    setGameRunning: (state) => {
+      state.isGameRunning = true;
+      state.isGameOver = false;
+    },
+    setGameOver: (state) => {
+      state.isGameOver = true;
+      state.isGameRunning = false;
+      state.time = 0;
+    },
+    setGamePaused: (state) => {
+
+      state.isGameRunning = false;
     },
     resetGame: (state) => {
       state.food = initialState.food;
       state.snake = initialState.snake;
       state.score = 0;
+      state.time = 0;
+      state.direction = '';
+      state.isGameRunning = true;
       state.isGameOver = false;
       state.isGamePaused = false;
     },
     setRecord: (state) => {
-      if (state.record < state.score) {
-        state.record += state.score
+      if (state.recordScore < state.score) {
+        state.recordScore = state.score
       }
     }
   },
@@ -103,14 +93,15 @@ export const gameSlice = createSlice({
 export const {
   setFood,
   setSnake,
-  moveSnake,
   increaseScore,
+  setGameRunning,
   setGameOver,
-  setPause,
+  setGamePaused,
   resetGame,
   setRecord,
   setDirection,
-  timer,
+  startTimer,
+  setTimer,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

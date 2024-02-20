@@ -1,21 +1,29 @@
-import React from 'react';
-import '../UI/Counter.scss'
-import Canvas from './Canvas';
-import '../UI/Counter.scss'
-import { useSelector, useDispatch } from 'react-redux';
-import actions from '../store/gameSlice';
+import "../UI/Counter.scss";
+import { useSelector } from "react-redux";
+
 
 function Counter() {
-
-  const record = useSelector((state) => state.game.recordScore);
   const score = useSelector((state) => state.game.score);
-  const time = useSelector((state) => state.game.time);
-  const dispatch = useDispatch();
-    
+  const timer = useSelector((state) => state.game.time);
+
+  const formatTime = (timer) => {
+    const minutes = Math.floor(timer / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = Math.floor(timer % 60)
+      .toString()
+      .padStart(2, "0");
+    return { minutes, seconds };
+  };
+
+  const { minutes, seconds } = formatTime(timer);
+
   return (
-    <div className='info'>
-      <div className='counter-score'>Ваш счет: {score}</div>
-      <div className='counter-time'>Время: {time} сек</div>
+    <div className="info">
+      <div className="counter-score">Ваш счет: {score}</div>
+      <div className="counter-time">
+        Времени прошло: {minutes} мин {seconds} сек
+      </div>
     </div>
   );
 }
