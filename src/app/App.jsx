@@ -41,8 +41,8 @@ const App = () => {
           >
             <button className="menu-buttons">Продолжить</button>
             <button className="menu-buttons">Начать заново</button>
-
-            <button className="menu-buttons" id="quit-game">
+            <button className="menu-buttons">Выбрать сложность</button>
+            <button className="menu-buttons" id="quit-game" onClick={dispatch(setGameRunning())}>
               Завершить игру
             </button>
           </Menu>

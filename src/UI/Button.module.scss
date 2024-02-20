@@ -23,4 +23,11 @@
         transform: scale(1.03);
         box-shadow: 0 0 24px 0 $btn-color;
     }
+
+    &:active {
+        background-color: $btn-color-click;
+        color: $text-clickcolor;
+        transform: scale(0.98);
+        box-shadow: 0 0 48px 0 $btn-color;
+    }
 }
