@@ -11,6 +11,9 @@ const snake = [{
   x: ( grid.width / 2 - 2 ) * box,
   y: ( grid.height / 2 - 1 ) * box,
 }]
+const easy = 'easy';
+const normal = 'normal';
+const hard = 'hard';
 
 const initialState = {
   width: width,
@@ -31,7 +34,7 @@ const initialState = {
   time: 0,
   isGameOver: false,
   isGameRunning: false,
-  diffucultyLevel: 'normal',
+  diffucultyLevel: normal,
 };
 
 export const gameSlice = createSlice({
@@ -86,6 +89,9 @@ export const gameSlice = createSlice({
       if (state.recordScore < state.score) {
         state.recordScore = state.score
       }
+    },
+    setDiffucultyLevel: (state, action) => {
+      state.diffucultyLevel = action.payload;
     }
   },
 });
@@ -102,6 +108,7 @@ export const {
   setDirection,
   startTimer,
   setTimer,
+  setDiffucultyLevel,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

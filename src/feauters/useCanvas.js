@@ -4,9 +4,7 @@ import {
   setFood,
   setDirection,
   setGameOver,
-  setGamePaused,
   setSnake,
-  setTimer,
   startTimer,
   setGameRunning,
   setRecord,
@@ -26,6 +24,10 @@ const useCanvas = (draw, ref) => {
   const food = useSelector((state) => state.game.food);
   const snake = useSelector((state) => state.game.snake);
   const direction = useSelector((state) => state.game.direction);
+  const level = useSelector(state => state.game.diffucultyLevel);
+  let t = useRef();
+  // let interval = useRef();
+  
 
   useEffect(() => {
     if (isGameOver) {
@@ -33,23 +35,31 @@ const useCanvas = (draw, ref) => {
     }
   }, [isGameOver]);
 
-  let t = useRef();
+//  useEffect(() => {
+//   switch (level) {
+//     case 'easy':
+//       interval.current = 200;
+//       break;
+//     case 'hard':
+//       interval.current = 100;
+//       break;
+//     default:
+//       interval.current = 150;
+//       break;
+//   }
+//   //  return () => {
+//   //    second
+//   //  }
+//  }, [level])
+ 
 
   useEffect(() => {
-    
     if (isGameRunning) {
-      console.log("if?")
-       t.current = setInterval(() => {
+      t.current = setInterval(() => {
         dispatch(startTimer());
       }, 1000);
-    }
-    else {
-      console.log("success")
-      // dispatch(setTimer(0));
-      clearInterval(t.current);
-    }
-
-  }, [ dispatch, isGameOver, isGamePaused, isGameRunning]);
+    } else clearInterval(t.current);
+  }, [dispatch, isGameOver, isGamePaused, isGameRunning]);
 
   useEffect(() => {
     const dir = function (event) {
@@ -70,10 +80,12 @@ const useCanvas = (draw, ref) => {
         dispatch(setGameRunning());
       }
     };
-    document.addEventListener("keydown", dir);
+    if (isGameOver == false) {
+      document.addEventListener("keydown", dir);
+    }
 
     return () => document.removeEventListener("keydown", dir);
-  }, [direction, dispatch, isGamePaused, isGameRunning]);
+  }, [direction, dispatch, isGameOver, isGamePaused, isGameRunning]);
 
   useEffect(() => {
     console.log("createCanvasGrid");
@@ -143,48 +155,50 @@ const useCanvas = (draw, ref) => {
     }
 
     function spawnSnake() {
-      const newSnake = [...snake];
-      let snakeX = newSnake[0].x;
-      let snakeY = newSnake[0].y;
+      if (isGameOver == false) {
+        const newSnake = [...snake];
+        let snakeX = newSnake[0].x;
+        let snakeY = newSnake[0].y;
 
-      console.log("direction", direction);
+        console.log("direction", direction);
 
-      if (!direction) return;
+        if (!direction) return;
 
-      if (snakeX == food.x && snakeY == food.y) {
-        dispatch(increaseScore(1));
-        dispatch(setRecord())
-        dispatch(setFood(food));
-      } else newSnake.pop();
+        if (snakeX == food.x && snakeY == food.y) {
+          dispatch(increaseScore(1));
+          dispatch(setRecord());
+          dispatch(setFood(food));
+        } else newSnake.pop();
 
-      if (
-        snakeX < 0 ||
-        snakeX >= box * grid.width ||
-        snakeY < 0 ||
-        snakeY >= box * grid.height
-      ) {
-        dispatch(setGameOver());
-        return;
+        if (
+          snakeX < 0 ||
+          snakeX >= box * grid.width ||
+          snakeY < 0 ||
+          snakeY >= box * grid.height
+        ) {
+          dispatch(setGameOver());
+          return;
+        }
+
+        if (direction == "left") snakeX -= box;
+        if (direction == "right") snakeX += box;
+        if (direction == "up") snakeY -= box;
+        if (direction == "down") snakeY += box;
+
+        let newHead = {
+          x: snakeX,
+          y: snakeY,
+        };
+
+        const isFailed = isEatTail(newHead, newSnake);
+        if (isFailed) {
+          dispatch(setGameOver());
+          return;
+        }
+
+        newSnake.unshift(newHead);
+        dispatch(setSnake(newSnake));
       }
-
-      if (direction == "left") snakeX -= box;
-      if (direction == "right") snakeX += box;
-      if (direction == "up") snakeY -= box;
-      if (direction == "down") snakeY += box;
-
-      let newHead = {
-        x: snakeX,
-        y: snakeY,
-      };
-
-      const isFailed = isEatTail(newHead, newSnake);
-      if (isFailed) {
-        dispatch(setGameOver());
-        return;
-      }
-
-      newSnake.unshift(newHead);
-      dispatch(setSnake(newSnake));
     }
 
     function runGame() {
@@ -192,15 +206,14 @@ const useCanvas = (draw, ref) => {
       spawnSnake();
     }
 
-    if(isGameRunning) {
+    if (isGameRunning) {
 
-      const game = setInterval(runGame, 100);
-  
+      const game = setInterval(runGame, 150);
+
       return () => {
         clearInterval(game);
       };
     }
-    
   }, [box, direction, dispatch, food, grid.height, grid.width, height, isGameOver, isGameRunning, ref, snake, width]);
 
   return ref;

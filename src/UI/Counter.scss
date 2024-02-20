@@ -2,6 +2,8 @@
 
 .info {
     background-color: $canvas-outlinecolor;
+    float: center;
+    display: flexbox;
 }
 
 .counter-score {
