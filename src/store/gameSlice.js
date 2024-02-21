@@ -11,9 +11,16 @@ const snake = [{
   x: ( grid.width / 2 - 2 ) * box,
   y: ( grid.height / 2 - 1 ) * box,
 }]
-const easy = 'easy';
-const normal = 'normal';
-const hard = 'hard';
+const randX = Math.floor(Math.random() * (grid.width - 2) + 1) * box;
+const randY = Math.floor(Math.random() * (grid.height - 2) + 1) * box
+const food = {
+  x: randX,
+  y: randY,
+}
+const goldFood = {
+  x: randX,
+  y: randY,
+}
 
 const initialState = {
   width: width,
@@ -21,10 +28,8 @@ const initialState = {
   direction: '',
   box: box,
   grid: grid,
-  food: { 
-    x: Math.floor(Math.random() * (grid.width- 1) + 1) * box,
-    y: Math.floor(Math.random() * (grid.height - 1) + 1) * box,
-  },
+  food: food,
+  goldFood: goldFood,
   snake: [{
     x: snake[0].x,
     y: snake[0].y,
@@ -34,7 +39,7 @@ const initialState = {
   time: 0,
   isGameOver: false,
   isGameRunning: false,
-  diffucultyLevel: normal,
+  diffucultyLevel: 'normal',
 };
 
 export const gameSlice = createSlice({
@@ -46,6 +51,12 @@ export const gameSlice = createSlice({
         x: Math.floor(Math.random() * (state.grid.width - 1) + 1) * state.box,
         y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
       };
+    },
+    setgoldFood: (state) => {
+      state.goldFood = {
+        x: Math.floor(Math.random() * (state.grid.width - 1) + 1) * state.box,
+        y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
+      }
     },
     setSnake: (state, action) => {
       state.snake = action.payload;
@@ -69,19 +80,17 @@ export const gameSlice = createSlice({
     setGameOver: (state) => {
       state.isGameOver = true;
       state.isGameRunning = false;
-      state.time = 0;
     },
     setGamePaused: (state) => {
 
       state.isGameRunning = false;
     },
-    resetGame: (state) => {
+    resetGame: (state) => { 
       state.food = initialState.food;
       state.snake = initialState.snake;
       state.score = 0;
       state.time = 0;
       state.direction = '';
-      state.isGameRunning = true;
       state.isGameOver = false;
       state.isGamePaused = false;
     },
@@ -109,6 +118,7 @@ export const {
   startTimer,
   setTimer,
   setDiffucultyLevel,
+  setGoldFood,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

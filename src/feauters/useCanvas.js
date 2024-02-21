@@ -8,6 +8,7 @@ import {
   startTimer,
   setGameRunning,
   setRecord,
+  setGoldFood,
 } from "../store/gameSlice";
 import "../UI/styles.scss";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,36 +23,18 @@ const useCanvas = (draw, ref) => {
   const isGamePaused = useSelector((state) => state.game.isGamepaused);
   const isGameRunning = useSelector((state) => state.game.isGameRunning);
   const food = useSelector((state) => state.game.food);
+  const goldFood = useSelector(state => state.game.goldFood);
   const snake = useSelector((state) => state.game.snake);
   const direction = useSelector((state) => state.game.direction);
-  const level = useSelector(state => state.game.diffucultyLevel);
+  const level = useSelector((state) => state.game.diffucultyLevel);
+  const time = useSelector((state) => state.game.time);
   let t = useRef();
-  // let interval = useRef();
-  
 
   useEffect(() => {
     if (isGameOver) {
       console.log("Игра окончена!");
     }
   }, [isGameOver]);
-
-//  useEffect(() => {
-//   switch (level) {
-//     case 'easy':
-//       interval.current = 200;
-//       break;
-//     case 'hard':
-//       interval.current = 100;
-//       break;
-//     default:
-//       interval.current = 150;
-//       break;
-//   }
-//   //  return () => {
-//   //    second
-//   //  }
-//  }, [level])
- 
 
   useEffect(() => {
     if (isGameRunning) {
@@ -88,7 +71,6 @@ const useCanvas = (draw, ref) => {
   }, [direction, dispatch, isGameOver, isGamePaused, isGameRunning]);
 
   useEffect(() => {
-    console.log("createCanvasGrid");
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -128,10 +110,9 @@ const useCanvas = (draw, ref) => {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    console.log("snake 2", snake);
     for (let i = 0; i < snake.length; i++) {
       ctx.fillStyle = i == 0 ? "rgb(35, 130, 254)" : "rgb(20, 93, 189)";
-      ctx.fillRect(snake[i].x, snake[i].y, box - 1, box - 1);
+      ctx.fillRect(snake[i].x+1, snake[i].y+1, box - 1, box - 1);
     }
   }, [box, ref, snake]);
 
@@ -140,65 +121,124 @@ const useCanvas = (draw, ref) => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "rgb(209, 0, 66)";
-    ctx.fillRect(food.x, food.y, box, box);
-  }, [box, food.x, food.y, ref, snake]);
+    if(isGameRunning) {
+      ctx.fillStyle = "rgb(209, 0, 66)";
+      ctx.fillRect(food.x-1, food.y-1, box + 2, box + 2);
+    }
+
+    // if(time > 10) {
+    //   ctx.fillStyle = "rgb(255, 187, 0)";
+    //   ctx.fillRect(goldFood.x-5, goldFood.y-5, box + 10, box + 10);
+    // }
+
+
+  }, [box, food.x, food.y, goldFood.x, goldFood.y, isGameRunning, ref, snake, time]);
 
   useEffect(() => {
     function isEatTail(head, arr) {
       for (let i = 0; i < arr.length; i++) {
         if (head.x == arr[i].x && head.y == arr[i].y) {
-          console.log("eating tail", game);
           return true;
         }
       }
     }
 
     function spawnSnake() {
-      if (isGameOver == false) {
-        const newSnake = [...snake];
-        let snakeX = newSnake[0].x;
-        let snakeY = newSnake[0].y;
+      const newSnake = [...snake];
+      let snakeX = newSnake[0].x;
+      let snakeY = newSnake[0].y;
 
-        console.log("direction", direction);
+      if (!direction) return;
 
-        if (!direction) return;
+      if (snakeX == food.x && snakeY == food.y) {
 
-        if (snakeX == food.x && snakeY == food.y) {
-          dispatch(increaseScore(1));
-          dispatch(setRecord());
-          dispatch(setFood(food));
-        } else newSnake.pop();
+        switch (level) {
+          case "easy":
+            dispatch(increaseScore(1));
+            break;
+          case "normal":
+            dispatch(increaseScore(2));
+            break;
+          case "hard":
+            dispatch(increaseScore(3));
+            break;
+          default:
+            break;
+        }
+        
+        dispatch(setRecord());
+        dispatch(setFood(food));
+      } else newSnake.pop();
 
-        if (
-          snakeX < 0 ||
-          snakeX >= box * grid.width ||
-          snakeY < 0 ||
-          snakeY >= box * grid.height
-        ) {
+      // if (snakeX == goldFood.x && snakeY == goldFood.y) {
+
+      //   switch (level) {
+      //     case "easy":
+      //       dispatch(increaseScore(5));
+      //       break;
+      //     case "normal":
+      //       dispatch(increaseScore(10));
+      //       break;
+      //     case "hard":
+      //       dispatch(increaseScore(15));
+      //       break;
+      //     default:
+      //       break;
+      //   }
+        
+      //   dispatch(setRecord());
+      //   dispatch(setGoldFood(goldFood));
+      // } else newSnake.pop();
+
+
+      if (
+        snakeX < 0 ||
+        snakeX > width - box ||
+        snakeY < 0 ||
+        snakeY > height - box
+      ) {
+        if (level == "hard") {
           dispatch(setGameOver());
           return;
+        } else {
+          switch (direction) {
+            case "left":
+              snakeX = width;
+              break;
+            case "right":
+              snakeX = 0 - box;
+              break;
+            case "up":
+              snakeY = height;
+              break;
+            case "down":
+              snakeY = 0 - box;
+              break;
+
+            default:
+              break;
+          }
         }
-
-        if (direction == "left") snakeX -= box;
-        if (direction == "right") snakeX += box;
-        if (direction == "up") snakeY -= box;
-        if (direction == "down") snakeY += box;
-
-        let newHead = {
-          x: snakeX,
-          y: snakeY,
-        };
-
-        const isFailed = isEatTail(newHead, newSnake);
-        if (isFailed) {
-          dispatch(setGameOver());
-          return;
-        }
-
-        newSnake.unshift(newHead);
-        dispatch(setSnake(newSnake));
       }
+
+      if (direction == "left") snakeX -= box;
+      if (direction == "right") snakeX += box;
+      if (direction == "up") snakeY -= box;
+      if (direction == "down") snakeY += box;
+
+      let newHead = {
+        x: snakeX,
+        y: snakeY,
+      };
+
+      const isFailed = isEatTail(newHead, newSnake);
+      if (isFailed) {
+        dispatch(setGameOver());
+        return;
+      }
+
+      newSnake.unshift(newHead);
+      dispatch(setSnake(newSnake));
     }
 
     function runGame() {
@@ -207,14 +247,33 @@ const useCanvas = (draw, ref) => {
     }
 
     if (isGameRunning) {
+      let game;
 
-      const game = setInterval(runGame, 150);
+      switch (level) {
+        case "easy":
+          game = setInterval(runGame, 150);
+          console.log("easy");
+          break;
+
+        case "normal":
+          game = setInterval(runGame, 100);
+          console.log("normal");
+          break;
+
+        case "hard":
+          game = setInterval(runGame, 80);
+          console.log("hard");
+          break;
+
+        default:
+          break;
+      }
 
       return () => {
         clearInterval(game);
       };
     }
-  }, [box, direction, dispatch, food, grid.height, grid.width, height, isGameOver, isGameRunning, ref, snake, width]);
+  }, [box, direction, dispatch, food, goldFood, goldFood.x, goldFood.y, grid.height, grid.width, height, isGameOver, isGameRunning, level, ref, snake, width]);
 
   return ref;
 };

@@ -62,7 +62,7 @@ const App = () => {
               onClick={() => {
                 setMenuActive(false);
                 setDiffucultyMenuActive(true);
-                dispatch(resetGame());
+                dispatch(setGamePaused());
               }}
             >
               Выбрать сложность
@@ -89,7 +89,8 @@ const App = () => {
               id="easy-button"
               onClick={() => {
                 setDiffucultyMenuActive(false);
-                setDiffucultyLevel("easy");
+                dispatch(setDiffucultyLevel("easy"));
+                dispatch(resetGame());
               }}
             >
               Легкий
@@ -100,7 +101,8 @@ const App = () => {
               id="normal-button"
               onClick={() => {
                 setDiffucultyMenuActive(false);
-                setDiffucultyLevel("normal");
+                dispatch(setDiffucultyLevel("normal"));
+                dispatch(resetGame());
               }}
             >
               Нормальный
@@ -109,9 +111,11 @@ const App = () => {
             <MenuButton
               className="menu-button"
               id="hard-button"
+              type="radio"
               onClick={() => {
                 setDiffucultyMenuActive(false);
-                setDiffucultyLevel("hard");
+                dispatch(setDiffucultyLevel("hard"));
+                dispatch(resetGame());
               }}
             >
               Сложный

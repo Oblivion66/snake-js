@@ -30,23 +30,27 @@
     }
 }
 
-#quit-game {
-    color: $text-quitcolor;
+#easy-button {
+
+    
+
+}
+
+#back-button {
+    color: $back-button-textcolor;
     border: none;
-    background-color: $quit-btn-color;
-    box-shadow: 0 0 12px 0 $quit-btn-color;
+    background-color: $back-button-color;
+    box-shadow: 0 0 12px 0 $back-button-hover-color;
 
     &:hover {
-        background-color: $quit-btn-color-hover;
-        border-color: $quit-btn-border-color;
-        color: $text-quit-hovercolor;
-        box-shadow: 0 0 24px 0 $quit-btn-color;
+        background-color: $back-button-hover-color;
+        color: $back-button-textcolor;
+        box-shadow: 0 0 24px 0 $back-button-hover-color;
     }
 
     &:active {
-        background-color: $quit-btn-color-click;
-        border-color: $quit-btn-border-color;
-        color: $text-quit-clickcolor;
-        box-shadow: 0 0 48px 0 $quit-btn-color;
+        background-color: $back-button-active-color;
+        color: $back-button-textcolor;
+        box-shadow: 0 0 48px 0 $back-button-hover-color;
     }
 }
