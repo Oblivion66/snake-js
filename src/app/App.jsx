@@ -5,8 +5,9 @@ import Button from "../components/Button";
 import Canvas from "../components/Canvas";
 import "../UI/Canvas.scss";
 import "../UI/App.scss";
-import { useDispatch } from "react-redux";
-import Counter from "../components/Counter";
+import { useDispatch, useSelector } from "react-redux";
+import ScoreCounter from "../components/ScoreCounter";
+import TimeCounter from "../components/TimeCounter.jsx";
 import {
   setGameRunning,
   setGameOver,
@@ -134,7 +135,8 @@ const App = () => {
             </MenuButton>
           </DifficultyMenu>
 
-          <Counter className="score-counter"></Counter>
+          <ScoreCounter className="counter" id="score-counter"></ScoreCounter>
+          <TimeCounter className="counter" id="time-counter"></TimeCounter>
         </main>
 
         <Canvas id="game-field" className="game-field" />

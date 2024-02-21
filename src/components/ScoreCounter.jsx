@@ -2,7 +2,7 @@ import "../UI/Counter.scss";
 import { useSelector } from "react-redux";
 
 
-function Counter() {
+function ScoreCounter() {
   const score = useSelector((state) => state.game.score);
   const timer = useSelector((state) => state.game.time);
 
@@ -19,13 +19,8 @@ function Counter() {
   const { minutes, seconds } = formatTime(timer);
 
   return (
-    <div className="info">
-      <div className="counter-score">Ваш счет: {score}</div>
-      <div className="counter-time">
-        Времени прошло: {minutes} мин {seconds} сек
-      </div>
-    </div>
+      <div className="counter" id="score-counter">Ваш счет: {score}</div>
   );
 }
 
-export default Counter;
+export default ScoreCounter;

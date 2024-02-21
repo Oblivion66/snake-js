@@ -1,15 +1,15 @@
 @import '../UI/styles.scss';
 
 .menu-button {
-    border-radius: 12px;
+    border-radius: 20px;
     border: none;
     background-color: $btn-color;
     font-weight: bold;
     color: $text-color;
-    padding: 20px;
+    padding: 25px;
     margin: 25px 0px;
     text-align: center;
-    font-size: $mid-font-size;
+    font-size: $large-font-size;
     cursor: pointer;
     display: block;
     width: 100%;
@@ -29,12 +29,6 @@
         box-shadow: 0 0 48px 0 $btn-color;
     }
 }
-
-// #easy-button {
-
-//     // Здесь должны быть стили для кнопки, которая окрасится навсегда в зеленый по нажатию
-
-// }
 
 #back-button {
     color: $back-button-textcolor;

@@ -1,37 +1,26 @@
 @import '../UI/styles.scss';
 
-.info {
-    background-color: $canvas-outlinecolor;
-    float: center;
-    display: flexbox;
+.counter {
+    display: inline-flex;
+    justify-content: space-between;
+    padding: 0px;
+    margin-top: 48px;
+    margin-bottom: 24px;
+    color: $text-color;
+    font-size: $large-font-size;
+    font-weight: bold;
+    font-family: $myFont;
+
 }
 
-.counter-score {
-    justify-content: center;
-    display: inline-block;
-    text-align: center;
-    padding: 0px;
-    float: left;
-
-    margin-left: 230px;
-    color:  $text-color;
-    font-size: $mid-font-size;
-    font-weight: bold;
-    border: none;
-    font-family: $myFont;
+#score-counter {
+    display: inline-flex;
+    justify-content: space-between;
+    margin-left: 26px;
 }
 
-.counter-time {
-    justify-content: center;
-    display: inline-block;
-    text-align: center;
-    padding: 0px;
-    margin-right: 230px;
-    float: inline-end;
-
-    color:  $text-color;
-    font-size: $mid-font-size;
-    font-weight: bold;
-    border: none;
-    font-family: $myFont;
+#time-counter {
+    display: inline-flex;
+    float: right;
+    margin-right: 224px;
 }
