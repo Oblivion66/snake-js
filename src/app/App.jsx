@@ -20,6 +20,7 @@ import MenuButton from "../components/MenuButton";
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
   const [diffucultyMenuActive, setDiffucultyMenuActive] = useState(false);
+
   const dispatch = useDispatch();
 
   return (
@@ -65,7 +66,7 @@ const App = () => {
                 dispatch(setGamePaused());
               }}
             >
-              Выбрать сложность
+              Выбрать уровень сложности
             </MenuButton>
 
             <MenuButton

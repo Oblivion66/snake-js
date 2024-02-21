@@ -1,0 +1,17 @@
+@import '../UI/styles.scss';
+
+.counter-record {
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+    padding: 20px 120px;
+    margin: 50px;
+    border-radius: 20px;
+    background-color: $back-button-color;
+    color:  $back-button-textcolor;
+    font-size: $large-font-size;
+    font-family: $myFont;
+    font-weight: bold;
+    border: none;
+    box-shadow: 0 0 12px 0 $back-button-color
+}

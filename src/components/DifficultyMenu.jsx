@@ -6,6 +6,9 @@ import { resetGame, setGameRunning } from "../store/gameSlice";
 const DifficultyMenu = ({ active, setActive, children }) => {
   const dispatch = useDispatch();
   const isGameOver = useSelector((state) => state.game.isGameOver);
+  
+
+
 
   return (
     <div
