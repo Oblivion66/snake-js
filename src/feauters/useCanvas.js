@@ -8,7 +8,6 @@ import {
   startTimer,
   setGameRunning,
   setRecord,
-  setGoldFood,
 } from "../store/gameSlice";
 import "../UI/styles.scss";
 import { useSelector, useDispatch } from "react-redux";
@@ -125,13 +124,6 @@ const useCanvas = (draw, ref) => {
       ctx.fillStyle = "rgb(209, 0, 66)";
       ctx.fillRect(food.x-1, food.y-1, box + 2, box + 2);
     }
-
-    // if(time > 10) {
-    //   ctx.fillStyle = "rgb(255, 187, 0)";
-    //   ctx.fillRect(goldFood.x-5, goldFood.y-5, box + 10, box + 10);
-    // }
-
-
   }, [box, food.x, food.y, goldFood.x, goldFood.y, isGameRunning, ref, snake, time]);
 
   useEffect(() => {
@@ -169,27 +161,6 @@ const useCanvas = (draw, ref) => {
         dispatch(setRecord());
         dispatch(setFood(food));
       } else newSnake.pop();
-
-      // if (snakeX == goldFood.x && snakeY == goldFood.y) {
-
-      //   switch (level) {
-      //     case "easy":
-      //       dispatch(increaseScore(5));
-      //       break;
-      //     case "normal":
-      //       dispatch(increaseScore(10));
-      //       break;
-      //     case "hard":
-      //       dispatch(increaseScore(15));
-      //       break;
-      //     default:
-      //       break;
-      //   }
-        
-      //   dispatch(setRecord());
-      //   dispatch(setGoldFood(goldFood));
-      // } else newSnake.pop();
-
 
       if (
         snakeX < 0 ||
