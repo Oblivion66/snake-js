@@ -20,7 +20,21 @@ i18n
       en: {
         translation: {
          description: {
-            menuBtnText: "Menu",
+            MenuText: "Menu",
+            StartGameText: "Start game",
+            RecordText: "Record",
+            EndGametext: "End Game",
+            ScoreText: "Your score: ",
+            TimeText: "Time: ",
+            MinText: "min",
+            Sectext: "sec",
+            ContinueText: "Continue",
+            Restarttext: "Restart",
+            ChooseText: "Choose game difficulty level",
+            EasyText: "Easy",
+            NormalText: "Normal",
+            Hardtext: "Hard",
+            BackText: "Back",
          }
         }
       },
@@ -28,7 +42,21 @@ i18n
       ru: {
         translation: {
          description: {
-            menuBtnText: "Меню",
+          MenuText: "Меню",
+          StartGameText: "Начать Игру",
+          RecordText: "Рекорд",
+          EndGametext: "Завершить Игру",
+          ScoreText: "Ваш счет: ",
+          TimeText: "Время: ",
+          MinText: "мин",
+          Sectext: "сек",
+          ContinueText: "Продолжить",
+          Restarttext: "Начать заново",
+          ChooseText: "Выбрать уровень сложности",
+          EasyText: "Легкий",
+          NormalText: "Нормальный",
+          Hardtext: "Сложный",
+          BackText: "Назад",
          }
         }
       }
