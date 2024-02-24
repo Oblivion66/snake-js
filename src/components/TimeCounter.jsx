@@ -1,6 +1,6 @@
 import "../UI/Counter.scss";
 import { useSelector } from "react-redux";
-
+import { useTranslation, Trans } from "react-i18next";
 
 function TimeCounter() {
   const timer = useSelector((state) => state.game.time);
@@ -18,9 +18,13 @@ function TimeCounter() {
   const { minutes, seconds } = formatTime(timer);
 
   return (
-      <div className="counter" id="time-counter">
-      Время: {minutes} мин {seconds} сек
-      </div>
+    <div className="counter" id="time-counter">
+      <Trans i18nKey="description.TimeText"></Trans>
+      {minutes}
+      <Trans i18nKey="description.MinText"></Trans> 
+      {seconds}
+      <Trans i18nKey="description.SecText"></Trans>
+    </div>
   );
 }
 

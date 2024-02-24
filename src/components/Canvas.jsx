@@ -1,10 +1,10 @@
 import { useRef } from 'react'
-import useCanvas from '../feauters/useCanvas.js'
-import '../UI//Canvas.scss'
-import Game from '../feauters/Game.js';
-import Food from '../feauters/Food.js';
-import Snake from '../feauters/Snake.js';
-import Controls from '../feauters/Controls.js';
+import useCanvas from '../utils/Canvas.js'
+import '../UI/Canvas.scss'
+import Game from '../utils/Game.js';
+import Food from '../utils/Food.js';
+import Snake from '../utils/Snake.js';
+import Controls from '../utils/Controls.js';
 
 const Test = ({ refC }) => {
   useCanvas(refC);

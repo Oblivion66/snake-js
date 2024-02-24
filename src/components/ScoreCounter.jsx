@@ -1,5 +1,6 @@
 import "../UI/Counter.scss";
 import { useSelector } from "react-redux";
+import { useTranslation, Trans } from "react-i18next";
 
 
 function ScoreCounter() {
@@ -19,7 +20,9 @@ function ScoreCounter() {
   const { minutes, seconds } = formatTime(timer);
 
   return (
-      <div className="counter" id="score-counter">Ваш счет: {score}</div>
+      <div className="counter" id="score-counter">
+        <Trans i18nKey="description.ScoreText"></Trans>
+        {score}</div>
   );
 }
 

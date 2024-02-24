@@ -36,3 +36,8 @@ $mid-font-size: 18px;
 $large-font-size: 24px;
 $padding-leftNright: 20px;
 $padding-topNbottom: 50px;
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
