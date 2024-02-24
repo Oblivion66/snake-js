@@ -8,175 +8,71 @@ import "../UI/App.scss";
 import { useDispatch } from "react-redux";
 import ScoreCounter from "../components/ScoreCounter";
 import TimeCounter from "../components/TimeCounter.jsx";
-import {
-  setGameRunning,
-  setGameOver,
-  setGamePaused,
-  resetGame,
-  setDiffucultyLevel,
-} from "../store/gameSlice";
+import { setGameOver, setGamePaused, resetGame } from "../store/gameSlice";
 import Record from "../components/Record";
-import MenuButton from "../components/MenuButton";
-import { useTranslation, Trans } from "react-i18next";
-
-const lngs = {
-  en: { nativeName: "English" },
-  ru: { nativeName: "Russian" },
-};
+import { Trans, useTranslation } from "react-i18next";
+import LangSwitcher from "../components/LangSwitcher.jsx";
 
 const App = () => {
   const [menuActive, setMenuActive] = useState(false);
   const [diffucultyMenuActive, setDiffucultyMenuActive] = useState(false);
-  const { i18n } = useTranslation();
-
   const dispatch = useDispatch();
+  const { i18n } = useTranslation();
 
   return (
     <div className="app">
-      <div className="content">
-        <main className="top-bar">
-          <div>
-            {Object.keys(lngs).map((lng) => (
-              <button
-                key={lng}
-                style={{
-                  fontWeight: i18n.resolvedLanguage === lng ? "bold" : "normal",
-                }}
-                type="submit"
-                onClick={() => i18n.changeLanguage(lng)}
-              >
-                {lngs[lng].nativeName}
-              </button>
-            ))}
-          </div>
+      <main className="top-bar">
+        <Button
+          id="open-menu"
+          onClick={() => {
+            setMenuActive(true);
+            dispatch(setGamePaused());
+          }}
+        >
+          <Trans i18nKey="description.MenuText"></Trans>
+        </Button>
 
-          <Button
-            id="open-menu"
-            onClick={() => {
-              setMenuActive(true);
-              dispatch(setGamePaused());
-            }}
-          >
-            <Trans i18nKey="description.MenuText"></Trans>
-          </Button>
+        <Menu
+          active={menuActive}
+          setActive={setMenuActive}
+          setDiffucultyMenuActive={setDiffucultyMenuActive}
+        >
+          {" "}
+        </Menu>
 
-          <Menu active={menuActive} setActive={setMenuActive}>
-            <MenuButton
-              className="menu-button"
-              onClick={() => {
-                setMenuActive(false);
-                dispatch(setGameRunning());
-              }}
-            >
-              <Trans i18nKey="description.ContinueText"></Trans>
-            </MenuButton>
+        <DifficultyMenu
+          active={diffucultyMenuActive}
+          setActive={setDiffucultyMenuActive}
+          setMenuActive={setMenuActive}
+        ></DifficultyMenu>
 
-            <MenuButton
-              className="menu-button"
-              onClick={() => {
-                setMenuActive(false);
-                dispatch(resetGame());
-              }}
-            >
-              <Trans i18nKey="description.StartGameText"></Trans>
-            </MenuButton>
-
-            <MenuButton
-              className="menu-button"
-              onClick={() => {
-                setMenuActive(false);
-                setDiffucultyMenuActive(true);
-                dispatch(setGamePaused());
-              }}
-            >
-              <Trans i18nKey="description.ChooseText"></Trans>
-            </MenuButton>
-
-            <MenuButton
-              className="menu-button"
-              id="quit-game"
-              onClick={() => {
-                setMenuActive(false);
-                dispatch(setGameOver());
-              }}
-            >
-              <Trans i18nKey="description.EndGameText"></Trans>
-            </MenuButton>
-          </Menu>
-
-          <DifficultyMenu
-            active={diffucultyMenuActive}
-            setActive={setDiffucultyMenuActive}
-          >
-            <MenuButton
-              className="menu-button"
-              id="easy-button"
-              onClick={() => {
-                setDiffucultyMenuActive(false);
-                dispatch(setDiffucultyLevel("easy"));
-                dispatch(resetGame());
-              }}
-            >
-               <Trans i18nKey="description.EasyText"></Trans>
-            </MenuButton>
-
-            <MenuButton
-              className="menu-button"
-              id="normal-button"
-              onClick={() => {
-                setDiffucultyMenuActive(false);
-                dispatch(setDiffucultyLevel("normal"));
-                dispatch(resetGame());
-              }}
-            >
-              <Trans i18nKey="description.NormalText"></Trans>
-            </MenuButton>
-
-            <MenuButton
-              className="menu-button"
-              id="hard-button"
-              type="radio"
-              onClick={() => {
-                setDiffucultyMenuActive(false);
-                dispatch(setDiffucultyLevel("hard"));
-                dispatch(resetGame());
-              }}
-            >
-              <Trans i18nKey="description.HardText"></Trans>
-            </MenuButton>
-
-            <MenuButton
-              className="menu-button"
-              id="back-button"
-              onClick={() => {
-                setDiffucultyMenuActive(false);
-                setMenuActive(true);
-              }}
-            >
-              <Trans i18nKey="description.BackText"></Trans>
-            </MenuButton>
-          </DifficultyMenu>
-
+        <div className="counter-wrapper">
           <ScoreCounter className="counter" id="score-counter"></ScoreCounter>
           <TimeCounter className="counter" id="time-counter"></TimeCounter>
-        </main>
+        </div>
 
-        <Canvas id="game-field" className="game-field" />
-        
-        <div className="wrapper">
+        <LangSwitcher
+          id="lang-switcher"
+          i18n={i18n}
+          onClick={() => i18n.changeLanguage()}
+        ></LangSwitcher>
+      </main>
+
+      <Canvas id="game-field" className="game-field" />
+
+      <div className="wrapper">
         <Button
           id="start-game-btn"
           onClick={() => {
             dispatch(resetGame());
           }}
         >
-         <Trans i18nKey="description.StartGameText"></Trans>
+          <Trans i18nKey="description.StartGameText"></Trans>
         </Button>
         <Record></Record>
         <Button id="quit-game-btn" onClick={() => dispatch(setGameOver())}>
           <Trans i18nKey="description.EndGameText"></Trans>
         </Button>
-        </div>
       </div>
     </div>
   );

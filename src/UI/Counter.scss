@@ -5,7 +5,7 @@
     justify-content: space-between;
     padding: 0px;
     margin-top: 48px;
-    margin-bottom: 24px;
+    margin-bottom: 0px;
     color: $text-color;
     font-size: $large-font-size;
     font-weight: bold;
@@ -16,11 +16,11 @@
 #score-counter {
     display: inline-flex;
     justify-content: space-between;
-    margin-left: 26px;
+    margin: 48px 0px 0px 0px;
 }
 
 #time-counter {
     display: inline-flex;
     float: right;
-    margin-right: 224px;
+    margin: 48px 55px 0px 0px;
 }

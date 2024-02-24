@@ -1,20 +1,20 @@
 @import '../UI/styles.scss';
 
 #open-menu {
-    margin-left: 16px;
-    margin-top: 16px;
-    margin-bottom: 2px;
+    float: left;
+    display: inline-flex;
+    margin: 16px 0px 16px 16px;
     padding: 20px 30px;
 }
 
 #start-game-btn {
     float: left;
-    margin: 48px 0px 50px 216px;
+    margin: 48px 0px 50px 224px;
 }
 
 #quit-game-btn {
     float: right;
-    margin: 48px 216px 50px 0px;
+    margin: 48px 224px 50px 0px;
     background-color: $quit-btn-color;
     color: $text-quitcolor;
     box-shadow: 0 0 12px 0 $quit-btn-color;

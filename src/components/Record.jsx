@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import "../UI/Record.scss"
-import { useTranslation, Trans } from "react-i18next";
+import { Trans } from "react-i18next";
 
 
 const Record = () => {

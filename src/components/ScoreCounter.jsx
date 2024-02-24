@@ -1,7 +1,6 @@
 import "../UI/Counter.scss";
 import { useSelector } from "react-redux";
-import { useTranslation, Trans } from "react-i18next";
-
+import { Trans } from "react-i18next";
 
 function ScoreCounter() {
   const score = useSelector((state) => state.game.score);
@@ -20,9 +19,10 @@ function ScoreCounter() {
   const { minutes, seconds } = formatTime(timer);
 
   return (
-      <div className="counter" id="score-counter">
-        <Trans i18nKey="description.ScoreText"></Trans>
-        {score}</div>
+    <div className="counter" id="score-counter">
+      <Trans i18nKey="description.ScoreText"></Trans>
+      {score}
+    </div>
   );
 }
 
