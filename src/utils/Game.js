@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux"; // useSelector - для получения данных из хранилища, useDispatch - для отправки действий в хранилище
+import { useSelector, useDispatch } from "react-redux";
 import { startTimer } from "../store/gameSlice";
 import { spawnSnake } from "./Snake";
 

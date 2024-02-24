@@ -37,7 +37,6 @@ const App = () => {
           setActive={setMenuActive}
           setDiffucultyMenuActive={setDiffucultyMenuActive}
         >
-          {" "}
         </Menu>
 
         <DifficultyMenu
