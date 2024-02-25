@@ -10,7 +10,6 @@ import MenuButton from "./MenuButton";
 import { Trans } from "react-i18next";
 
 const Menu = ({ active, setActive, setDiffucultyMenuActive, children }) => {
-  // const [menuActive, setMenuActive] = useState(false);
   const dispatch = useDispatch();
   const isGameOver = useSelector((state) => state.game.isGameOver);
 

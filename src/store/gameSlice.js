@@ -17,10 +17,6 @@ const food = {
   x: randX,
   y: randY,
 }
-const goldFood = {
-  x: randX,
-  y: randY,
-}
 
 const initialState = {
   width: width,
@@ -29,7 +25,6 @@ const initialState = {
   box: box,
   grid: grid,
   food: food,
-  goldFood: goldFood,
   snake: [{
     x: snake[0].x,
     y: snake[0].y,
@@ -52,12 +47,6 @@ export const gameSlice = createSlice({
         y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
       };
     },
-    setgoldFood: (state) => {
-      state.goldFood = {
-        x: Math.floor(Math.random() * (state.grid.width - 1) + 1) * state.box,
-        y: Math.floor(Math.random() * (state.grid.height - 1) + 1) * state.box,
-      }
-    },
     setSnake: (state, action) => {
       state.snake = action.payload;
     },
@@ -69,9 +58,6 @@ export const gameSlice = createSlice({
     },
     startTimer: (state) => {
       state.time += 1;
-    },
-    setTimer: (state, action) => {
-      state.time = action.payload;
     },
     setGameRunning: (state) => {
       state.isGameRunning = true;
@@ -116,9 +102,7 @@ export const {
   setRecord,
   setDirection,
   startTimer,
-  setTimer,
   setDiffucultyLevel,
-  setGoldFood,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
